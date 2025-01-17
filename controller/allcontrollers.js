@@ -17,23 +17,25 @@ const getData = async (req, res) => {
     res.status(500).json({ message: 'Error fetching data from the database.' });
   }
 };
-
 const getCountData = async (req, res) => {
+  console.log(req.body);
   try {
-const number=req.body   
-const numberIsExisting = await CountSeries.findOne({ number });
+    const { number } = req.body; // Ensure you are extracting `number` from the request body
+    const numberIsExisting = await CountSeries.findOne({ number });
 
-    // Check if data exists
+    // Check if the number already exists in the database
     if (numberIsExisting) {
-console.log(numberIsExisting);
-      // return res.status(404).json({ message: 'No data found in CountSeries.' });
+      console.log(numberIsExisting);
+      // If it exists, return the existing count
+      return res.status(200).json({ 
+        message: `Existing count is ${numberIsExisting.count}`, 
+        count: numberIsExisting.count ,
+        number:numberIsExisting.number
+      });
+    } else {
+      // If it doesn't exist, return a different message
+      return res.status(201).json({ message: 'No existing countdata for this number' });
     }
-    else{
-      return res.status(201).json({ message: 'no existing countdata' });
-    }
-
-    // Send the data as a JSON response
-    res.json(data);
   } catch (error) {
     console.error('Error fetching data:', error);
     res.status(500).json({ message: 'Error fetching data from the database.' });
@@ -131,5 +133,6 @@ module.exports = {
   postaddData,
   getData,
   clearAllData,
-  checkNumber
+  checkNumber,
+  getCountData
 };
