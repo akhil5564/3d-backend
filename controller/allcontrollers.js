@@ -18,6 +18,28 @@ const getData = async (req, res) => {
   }
 };
 
+const getCountData = async (req, res) => {
+  try {
+const number=req.body   
+const numberIsExisting = await CountSeries.findOne({ number });
+
+    // Check if data exists
+    if (numberIsExisting) {
+console.log(numberIsExisting);
+      // return res.status(404).json({ message: 'No data found in CountSeries.' });
+    }
+    else{
+      return res.status(201).json({ message: 'no existing countdata' });
+    }
+
+    // Send the data as a JSON response
+    res.json(data);
+  } catch (error) {
+    console.error('Error fetching data:', error);
+    res.status(500).json({ message: 'Error fetching data from the database.' });
+  }
+};
+
 const clearAllData = async (req, res) => {
   try {
     // Delete all documents in the collection

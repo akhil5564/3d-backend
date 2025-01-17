@@ -10,4 +10,5 @@ router.get('/data', getData);
 router.get('/checkNumber/:number', checkNumber); // New route to check number
 router.post('/addData',postaddData);//example rote
 router.delete('/clearData', clearAllData);
+router.post('./getCountData',)
 module.exports = router;
