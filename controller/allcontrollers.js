@@ -42,6 +42,30 @@ const getCountData = async (req, res) => {
   }
 };
 
+app.post('/data', async (req, res) => {
+  const { number, count } = req.body;
+
+  try {
+    // Check if the number already exists
+    let existingData = await DataModel.findOne({ number });
+
+    if (existingData) {
+      // Update the count if the number already exists
+      existingData.count += count; // or update as needed
+      await existingData.save();
+      return res.status(200).json({ message: 'Data updated successfully' });
+    } else {
+      // Create new record if the number does not exist
+      const newData = new DataModel({ number, count });
+      await newData.save();
+      return res.status(201).json({ message: 'Data saved successfully' });
+    }
+  } catch (error) {
+    console.error('Error saving data:', error);
+    return res.status(500).json({ message: 'Error saving data' });
+  }
+});
+
 const clearAllData = async (req, res) => {
   try {
     // Delete all documents in the collection
@@ -57,20 +81,22 @@ const checkNumber = async (req, res) => {
   const { number } = req.params;
 
   try {
-    // Your database query logic here
-    const data = await YourModel.findOne({ number: parseInt(number) });
+    // Check if the number exists in the database
+    const result = await Data.findOne({ number: number });
 
-    if (data) {
-      res.json({
-        number: data.number,
-        count: data.count
+    if (result) {
+      // If the number is found, return it along with the count
+      return res.status(200).json({
+        number: result.number,
+        count: result.count,
       });
     } else {
-      res.status(404).json({ message: 'Number not found' });
+      // If the number is not found, return a message
+      return res.status(404).json({ message: 'Number not found' });
     }
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: 'Server error' });
+    return res.status(500).json({ message: 'Server error' });
   }
 };
 
@@ -134,5 +160,6 @@ module.exports = {
   getData,
   clearAllData,
   checkNumber,
-  getCountData
+  getCountData,
+  existingData
 };
