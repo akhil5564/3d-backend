@@ -6,8 +6,11 @@ const {
   checkNumber,
   getCountData,
   existingData,
+  getDataByNumber
 } = require('../controller/allcontrollers'); // Import controller functions
 const router = express.Router(); // Create a new router
+
+router.get('/data/:number', getDataByNumber);
 
 // Define the routes
 // Route for getting all data
