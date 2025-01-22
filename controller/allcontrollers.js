@@ -24,6 +24,11 @@ const checkNumber = async (req, res) => {
 const postaddData = async (req, res) => {
   const { count, number, type } = req.body; // Extract data from request body
 
+  // Basic validation
+  if (!number || !count || !type) {
+    return res.status(400).json({ message: 'Missing required fields: number, count, or type.' });
+  }
+
   try {
     // Check if the number already exists in the database
     const existingNumber = await CountSeries.findOne({ number });
@@ -33,15 +38,12 @@ const postaddData = async (req, res) => {
         { number },
         { $set: { count: String(Number(existingNumber.count) + Number(count)) } }
       );
-      return res.status(200).json({
-        message: `Number ${number} updated successfully`,
-        data: updatedData,
-      });
+      return res.status(200).json({ message: `Number ${number} updated successfully`, data: updatedData });
     } else {
       // Create a new document if the number does not exist
       const newData = new CountSeries({ count, number, type });
       await newData.save();
-      res.status(201).json({ message: 'Data added successfully', data: newData });
+      return res.status(201).json({ message: 'Data added successfully', data: newData });
     }
   } catch (error) {
     console.error('Error adding data:', error);
