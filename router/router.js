@@ -1,15 +1,31 @@
 const express = require('express');
-const { postaddData,getData,clearAllData, checkNumber, getCountData, existingData } = require('../controller/allcontrollers');
-const router = express.Router();
+const {
+  postaddData,
+  getData,
+  clearAllData,
+  checkNumber,
+  getCountData,
+  existingData,
+} = require('../controller/allcontrollers'); // Import controller functions
+const router = express.Router(); // Create a new router
 
-
-
-// Define routes
-// router.get('/data', allController.getData); // example route
+// Define the routes
+// Route for getting all data
 router.get('/data', getData);
+
+// Route for checking if a number exists
 router.get('/checkNumber/:number', checkNumber);
-router.post('/addData',postaddData);//example rote
+
+// Route for adding data
+router.post('/addData', postaddData);
+
+// Route for clearing all data
 router.delete('/clearData', clearAllData);
-router.post('/getCountData',getCountData);
-router.post('/existingData',existingData)
+
+// Route for getting count data
+router.post('/getCountData', getCountData);
+
+// Route for checking existing data
+router.post('/existingData', existingData);
+
 module.exports = router;
