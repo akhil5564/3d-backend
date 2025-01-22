@@ -1,4 +1,6 @@
 const mongoose = require('mongoose');
+const CountSeries = require('../models/CountSeries');
+
 
 // Define the schema for the countSeries collection
 const countSeriesSchema = mongoose.Schema({
