@@ -1,4 +1,4 @@
-const CountSeries = require('../models/CountSeries'); // Assuming you have a model for the collection
+const CountSeries = require('../model/countSeriesSchema');
 
 // Function to get all data
 const getData = async (req, res) => {
