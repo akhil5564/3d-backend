@@ -49,7 +49,7 @@ app.post('/data', async (req, res) => {
     // Check if the number already exists
     let existingData = await DataModel.findOne({ number });
 
-    if (existingData) {
+    if   (existingData) {
       // Update the count if the number already exists
       existingData.count += count; // or update as needed
       await existingData.save();
@@ -161,5 +161,4 @@ module.exports = {
   clearAllData,
   checkNumber,
   getCountData,
-  existingData
 };

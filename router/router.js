@@ -1,5 +1,5 @@
 const express = require('express');
-const { postaddData,getData,clearAllData, checkNumber, getCountData, existingData } = require('../controller/allcontrollers');
+const { postaddData,getData,clearAllData, checkNumber, getCountData} = require('../controller/allcontrollers');
 const router = express.Router();
 
 
@@ -11,5 +11,4 @@ router.get('/checkNumber/:number', checkNumber);
 router.post('/addData',postaddData);//example rote
 router.delete('/clearData', clearAllData);
 router.post('/getCountData',getCountData);
-router.post('/existingData',existingData)
 module.exports = router;
