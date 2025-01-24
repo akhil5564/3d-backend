@@ -1,7 +1,8 @@
 // allcontrollers.js
 
 const express = require('express');
-const router = express.Router();  // Use Express Router
+const router = express.Router();  // Use Router instead of app
+
 const CountSeries = require('../model/countSeriesSchema');
 
 // Fetch all data from the CountSeries collection
