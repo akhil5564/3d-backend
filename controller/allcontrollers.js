@@ -1,27 +1,24 @@
-// allcontrollers.js
-
 const express = require('express');
-const router = express.Router();  // Use Router instead of app
-
+const router = express.Router();
 const CountSeries = require('../model/countSeriesSchema');
 
 // Fetch all data from the CountSeries collection
 router.get('/data', async (req, res) => {
   try {
-    const data = await CountSeries.find();  // Fetch all documents
+    const data = await CountSeries.find(); // Fetch all documents
     if (data.length === 0) {
       return res.status(404).json({ message: 'No data found in CountSeries.' });
     }
-    res.json(data);  // Return the data as a response
+    res.json(data); // Return the data as a response
   } catch (error) {
     console.error('Error fetching data:', error);
     res.status(500).json({ message: 'Error fetching data from the database.' });
   }
 });
 
-// Get the count data for a specific number
-router.post('/getCountData', async (req, res) => {
-  const { number } = req.body;  // Extract the number from the request body
+// Get the count data for a specific number (using GET to fetch data)
+router.get('/getCountData/:number', async (req, res) => {
+  const { number } = req.params; // Extract the number from the route parameter
 
   try {
     const numberIsExisting = await CountSeries.findOne({ number });
@@ -33,7 +30,7 @@ router.post('/getCountData', async (req, res) => {
         number: numberIsExisting.number,
       });
     } else {
-      return res.status(201).json({ message: 'No existing countdata for this number' });
+      return res.status(404).json({ message: 'No existing count data for this number' });
     }
   } catch (error) {
     console.error('Error fetching data:', error);
@@ -137,4 +134,4 @@ router.post('/postaddData', async (req, res) => {
   }
 });
 
-module.exports = router;  // Export the router for use in the main server file
+module.exports = router;
